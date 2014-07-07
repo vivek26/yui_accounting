@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Accounting 101</title>
+    <script src="http://yui.yahooapis.com/3.17.2/build/yui/yui-min.js"></script>
+
+</head>
+<body>
+   <form id="loginForm" novalidate>
+       <table>
+           <tr>
+               <td>Username</td>
+               <td>
+                   <input type="text" id="username" name="username" required/>
+               </td>
+           </tr>
+           <tr>
+               <td>
+                   Password
+               </td>
+               <td>
+                   <input type="password" id="password" name="password" required/>
+               </td>
+           </tr>
+           <tr>
+               <td></td>
+               <td>
+                   <input type="submit" value="Login"/>
+               </td>
+           </tr>
+       </table>
+   </form>
+</body>
+
+
+<script>
+
+
+
+
+    YUI().use('node-base','io-base','event-base',function(Y){
+
+
+
+
+
+        function loadPage(url){
+            alert('ur; loaded');
+
+        }
+
+
+
+
+
+
+
+
+        function login(username,password){
+            if(username==="" || password===""){
+                alert('username or password cannot be empty');
+            }else{
+                Y.io('/login',{
+                    on:{
+                        complete:function(id,response){
+                            if(response.status>= 200 && response.status<300){
+                                loadPage('/main.html')
+
+                            } else{
+                                alert(response.status +" "+response.statusText);
+
+                            }
+                        }
+                    }
+                });
+
+            }
+
+
+
+
+
+
+       }
+
+
+
+        Y.one('#loginForm').on('submit',function(e){
+            e.preventDefault();
+            var username= Y.one('#username').get('value');
+            var password= Y.one('#password').get('value');
+            login(username,password);
+
+        });
+
+    });
+</script>
+
+</html>
